@@ -35,28 +35,6 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// Endpoint: GET /api/logs?start=YYYY-MM-DD&end=YYYY-MM-DD
-router.get('/', async (req, res) => {
-  const { start, end } = req.query;
-  console.log('Request GET /api/logs dengan filter:', { start, end });
 
-  if (!start || !end) {
-    return res.status(400).json({ message: 'Parameter start dan end diperlukan' });
-  }
-
-  try {
-    const [rows] = await db.query(`
-      SELECT * FROM logs
-      WHERE waktu BETWEEN ? AND ?
-      ORDER BY waktu DESC
-    `, [`${start} 00:00:00`, `${end} 23:59:59`]);
-
-    console.log(`Berhasil ambil ${rows.length} log untuk rentang ${start} - ${end}`);
-    res.json(rows);
-  } catch (error) {
-    console.error('Gagal ambil log berdasarkan tanggal:', error);
-    res.status(500).json({ message: 'Gagal mengambil data log' });
-  }
-});
 
 module.exports = router;

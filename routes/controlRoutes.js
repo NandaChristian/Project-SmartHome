@@ -64,7 +64,10 @@ router.post("/control", async (req, res) => {
   
   try {
     const feedback = await waitForResponse(lokasi);
-    return res.status(200).json({ message: `Perintah ${status} ke ${lokasi} dikonfirmasi oleh ESP32`, feedback });
+    return res.status(200).json({ 
+      message: `Perintah ${status} ke ${lokasi} dikonfirmasi oleh ESP32`, 
+      feedback 
+    });
   } catch (error) {
     return res.status(504).json({ message: error.message });
   }
