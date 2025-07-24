@@ -69,7 +69,6 @@ module.exports = function (server) {
     // Semua client yang terhubung (ESP32 atau React) dimasukkan ke array
     clients.push(ws);
     mqttClient.setWebSocketClients(clients);
-
     console.log('Client baru terhubung ke WebSocket (belum teridentifikasi)');
 
     // Bagian untuk FRONTEND:
@@ -78,7 +77,7 @@ module.exports = function (server) {
       if (status !== null) {
       const initData = {
         lokasi,
-        status: statusWaktuNyala[lokasi] ? 'ON' : 'OFF', // jika sedang menyala
+        status: statusWaktuNyala[lokasi] ? 'ON' : 'OFF', 
         konsumsi_daya: 0.0, // belum tahu karena belum OFF
         id_user: 2 
       };
@@ -86,7 +85,7 @@ module.exports = function (server) {
     }
     });
 
-    // Saat menerima pesan dari client (ESP32 atau React)
+    // Saat menerima pesan dari client (ESP32 atau frontend)
     ws.on('message', (message) => {
       let parsed;
       try {
@@ -111,7 +110,6 @@ module.exports = function (server) {
 
       // HANDLE REQUEST STATUS (dari frontend)
       if (parsed.action === 'GET_STATUS') {
-        // console.log('Request GET_STATUS diterima dari frontend');
         sendCurrentStatusToClient(ws);
         return; // selesai di sini, tidak perlu proses lebih lanjut
       }
@@ -214,7 +212,7 @@ module.exports = function (server) {
   });
 
   // Export sinkronisasi untuk route control
-  module.exports.waitForESP32Response = function (lokasi, id_user, timeoutMs = 4000) {
+  module.exports.waitForESP32Response = function (lokasi, id_user, timeoutMs = 2000) {
     return new Promise((resolve, reject) => {
       const key = `${lokasi}_${id_user}`;
 
