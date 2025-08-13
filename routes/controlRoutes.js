@@ -8,7 +8,7 @@ function setWebSocketClients(list) {
   clients = list;
 }
 
-function waitForResponse(lokasi, timeout = 3000) {
+function waitForResponse(lokasi, timeout = 2000) {
   return new Promise((resolve, reject) => {
     let settled = false;
 

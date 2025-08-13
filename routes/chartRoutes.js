@@ -22,4 +22,3 @@ router.get('/chart', async (req, res) => {
 
 
 module.exports = router;
-

@@ -13,7 +13,9 @@ exports.login = async (req, res) => {
     console.time('Login');
 
     // cek apakah email sama dengan data yg ada di database
-    const [results] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
+    const [results] = await db.execute(
+      'SELECT * FROM users WHERE email = ?', 
+      [email]);
 
     if (results.length === 0) {
       console.timeEnd('Login');
@@ -30,7 +32,11 @@ exports.login = async (req, res) => {
     }
 
     // pembuatan token
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign(
+      { id: user.id, email: user.email }, 
+        JWT_SECRET, 
+        { expiresIn: '1d' }
+    );
 
     console.timeEnd('Login');
     res.json({ message: 'Login berhasil', token
