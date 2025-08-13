@@ -1,12 +1,9 @@
 require('dotenv').config();
-const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const https = require('https');
 
 const app = express();
-
 
 // Middleware
 app.use(cors({
@@ -28,7 +25,9 @@ const { setWebSocketClients } = require('./routes/controlRoutes');
 const websocketServer = require('./utils/websocketServer');
 
 // Start server
-const PORT = process.env.PORT || 443;
+const server = http.createServer(app);
+
+const PORT = process.env.PORT;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on port ${PORT}`);
 });
