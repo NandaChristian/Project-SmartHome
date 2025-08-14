@@ -7,7 +7,9 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*'
+  origin: ["https://shome.rumahasaindonesia.com"], // domain hosting FE
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 app.use(express.json());
 
