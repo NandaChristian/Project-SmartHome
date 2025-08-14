@@ -13,17 +13,17 @@ exports.login = async (req, res) => {
     console.time('Login');
 
     // cek apakah email sama dengan data yg ada di database
-    const [row] = await db.execute(
+    const [rows] = await db.execute(
       'SELECT * FROM users WHERE email = ?', 
       [email]);
 
-    if (row.length === 0) {
+    if (rows.length === 0) {
       console.timeEnd('Login');
       return res.status(401).json({ message: 'Email tidak ditemukan' });
     }
 
     // mengecek password apakah sama dengan yg di hash di database
-    const user = row[0];
+    const user = rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
