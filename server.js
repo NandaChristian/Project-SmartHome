@@ -6,10 +6,10 @@ const http = require('http');
 const app = express();
 
 // Middleware
+app.use(express.json());
 app.use(cors({
   origin: "*"
 }));
-app.use(express.json());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
@@ -28,9 +28,14 @@ const websocketServer = require('./utils/websocketServer');
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000; 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+// const PORT = process.env.PORT || 3000; 
+// server.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server listening on port ${PORT}`);
+// });
 
 websocketServer(server);
 setWebSocketClients(getClients());
