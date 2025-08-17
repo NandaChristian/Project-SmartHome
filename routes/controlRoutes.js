@@ -11,6 +11,7 @@ function setWebSocketClients(list) {
 function waitForResponse(lokasi, timeout = 2000) {
   return new Promise((resolve, reject) => {
     let settled = false;
+    const startTime = Date.now();
 
     function handler(message) {
       try {
@@ -18,6 +19,10 @@ function waitForResponse(lokasi, timeout = 2000) {
         if (data.lokasi === lokasi) {
           settled = true;
           cleanup();
+
+          const duration = Date.now() - startTime; 
+          console.log(`Respon dari ESP32 (${lokasi}) diterima dalam ${duration} ms`);
+
           resolve(data);
         }
       } catch (e) {}
