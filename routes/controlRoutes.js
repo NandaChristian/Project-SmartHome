@@ -11,7 +11,7 @@ function setWebSocketClients(list) {
 function waitForResponse(lokasi, timeout = 2000) {
   return new Promise((resolve, reject) => {
     let settled = false;
-    const startTime = Date.now();
+  
 
     function handler(message) {
       try {
@@ -20,11 +20,8 @@ function waitForResponse(lokasi, timeout = 2000) {
           settled = true;
           cleanup();
 
-          const duration = Date.now() - startTime; 
-          const now = new Date();
-          const waktuLokal = now.toLocaleString("id-ID", { timezone: "Asia/Jakarta"});
-
-          resolve({data, responseTime: duration, waktu: waktuLokal});
+         
+          resolve(data);
         }
       } catch (e) {}
     }
@@ -72,8 +69,7 @@ router.post("/control", async (req, res) => {
     const feedback = await waitForResponse(lokasi);
     return res.status(200).json({ 
       message: `Perintah ${status} ke ${lokasi} dikonfirmasi oleh ESP32`, 
-      feedback,
-      responseTime:feedback.responseTime + " ms" 
+      feedback
     });
   } catch (error) {
     return res.status(504).json({ message: error.message });
