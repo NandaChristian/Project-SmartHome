@@ -186,7 +186,7 @@ module.exports = function (server) {
       console.log(`Data dari ${ws.clientType || 'unknown'}:`, data);
 
       // Simpan ke database (dari ESP32 atau dari kontrol via React/Google Assistant)
-      const waktuWIB = new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' });
+      const waktuWIB = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
 
 
       const query = 'INSERT INTO logs (lokasi, status, waktu, konsumsi_daya, id_user) VALUES (?, ?, ?, ?, ?)';

@@ -21,9 +21,10 @@ function waitForResponse(lokasi, timeout = 2000) {
           cleanup();
 
           const duration = Date.now() - startTime; 
-          console.log(`Respon dari ESP32 (${lokasi}) diterima dalam ${duration} ms`);
+          const now = new Date();
+          const waktuLokal = now.toLocaleString("id-ID", { timezone: "Asia/Jakarta"});
 
-          resolve({data, responseTime: duration});
+          resolve({data, responseTime: duration, waktu: waktuLokal});
         }
       } catch (e) {}
     }
@@ -71,7 +72,8 @@ router.post("/control", async (req, res) => {
     const feedback = await waitForResponse(lokasi);
     return res.status(200).json({ 
       message: `Perintah ${status} ke ${lokasi} dikonfirmasi oleh ESP32`, 
-      feedback 
+      feedback,
+      responseTime:feedback.responseTime + " ms" 
     });
   } catch (error) {
     return res.status(504).json({ message: error.message });
