@@ -186,11 +186,11 @@ module.exports = function (server) {
       console.log(`Data dari ${ws.clientType || 'unknown'}:`, data);
 
       // Simpan ke database (dari ESP32 atau dari kontrol via React/Google Assistant)
-      // const waktuWIB = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+      const waktuWIB = new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' });
 
 
-      const query = `INSERT INTO logs (lokasi, status, waktu, konsumsi_daya, id_user) VALUES (?, ?, CONVERT_TZ(UTC_TIMESTAMP(), '+00:00', '+07:00'), ?, ?)`;
-      db.execute(query, [lokasi, status, waktu, konsumsi_daya, id_user])
+      const query = 'INSERT INTO logs (lokasi, status, waktu, konsumsi_daya, id_user) VALUES (?, ?, ?, ?, ?)';
+      db.execute(query, [lokasi, status, waktuWIB, konsumsi_daya, id_user])
         .then(() => console.log('Log berhasil disimpan'))
         .catch((err) => console.error('Gagal simpan log:', err));
 
