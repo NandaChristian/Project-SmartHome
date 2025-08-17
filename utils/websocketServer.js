@@ -186,22 +186,12 @@ module.exports = function (server) {
       console.log(`Data dari ${ws.clientType || 'unknown'}:`, data);
 
       // Simpan ke database (dari ESP32 atau dari kontrol via React/Google Assistant)
-      function nowJakartaMySQL() {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Asia/Jakarta',
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
-    hour12: false
-  }).formatToParts(new Date());
-  const get = (t) => parts.find(p => p.type === t).value;
-  // YYYY-MM-DD HH:MM:SS
-  return `${get('year')}-${get('month')}-${get('day')} ${get('hour')}:${get('minute')}:${get('second')}`;
-}
 
-      const waktuDB = nowJakartaMySQL();
+      const now = new Date();
+      const waktu = now.toISOString().slice(0, 19).replace('T', ' ');
 
       const query = 'INSERT INTO logs (lokasi, status, waktu, konsumsi_daya, id_user) VALUES (?, ?, ?, ?, ?)';
-      db.execute(query, [lokasi, status, waktuDB, konsumsi_daya, id_user])
+      db.execute(query, [lokasi, status, waktu, konsumsi_daya, id_user])
         .then(() => console.log('Log berhasil disimpan'))
         .catch((err) => console.error('Gagal simpan log:', err));
 
