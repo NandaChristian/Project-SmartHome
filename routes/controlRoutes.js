@@ -23,7 +23,7 @@ function waitForResponse(lokasi, timeout = 2000) {
           const duration = Date.now() - startTime; 
           console.log(`Respon dari ESP32 (${lokasi}) diterima dalam ${duration} ms`);
 
-          resolve(data);
+          resolve({data, responseTime: duration});
         }
       } catch (e) {}
     }
